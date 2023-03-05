@@ -28,6 +28,8 @@ process runVEP {
 
   input:
   tuple path(vcfFile), path(indexFile)
+  path(CADD_REF)
+  path(CADD_IDX)
   
   output:
   path("${prefix}-*.vcf.gz"), emit: vcfFile
@@ -43,7 +45,20 @@ process runVEP {
   }
   else {
     """
-    vep -i ${vcfFile} -o ${prefix}-${vcfFile} --vcf --force_overwrite --database --compress_output bgzip --format vcf 
+    vep -i ${vcfFile} -o ${prefix}-${vcfFile} \
+    --vcf --force_overwrite --database \
+    --compress_output bgzip --format vcf \
+    --plugin Blosum62 \
+    --plugin CADD,${CADD_REF} \
+    --plugin CSN \
+    --plugin Carol \
+    --plugin Downstream \
+    --plugin LoFtool \
+    --plugin LOVD \
+    --plugin SingleLetterAA \
+    --plugin SpliceRegion \
+    --plugin TSSDistance
+
     tabix -p vcf ${prefix}-${vcfFile}
     """	
   }

@@ -47,6 +47,11 @@ if( !vcfFile.exists() ) {
   exit 1, "The specified VCF file does not exist: ${params.vcf}"
 }
 
+CADD_REF = file(params.cadd)
+if( !CADD_REF.exists() ) {
+  exit 1, "The specified CADD file does not exist: ${params.cadd}"
+}
+
 check_bgzipped = "bgzip -t $params.vcf".execute()
 check_bgzipped.waitFor()
 if(check_bgzipped.exitValue()){
@@ -57,6 +62,12 @@ vcf_index = "${params.vcf}.tbi"
 vcfIndexFile = file(vcf_index)
 if ( !vcfIndexFile.exists() ) {
   exit 1, "The specified VCF file does not have index: ${vcf_index}\nTry to create index using tabix ${params.vcf}"
+}
+
+cadd_idx = "${params.cadd}.tbi"
+CADD_IDX = file(cadd_idx)
+if ( !CADD_IDX.exists() ) {
+  exit 1, "The specified CADD index: ${CADD_IDX}\nTry to create index using tabix ${params.cadd}"
 }
 
 log.info 'Starting workflow.....'
@@ -74,7 +85,7 @@ log.info params.chros
     chr = readChrVCF.out.splitText().map{it -> it.trim()}
   }
   splitVCF(chr, params.vcf, vcf_index)
-  runVEP(splitVCF.out)
+  runVEP(splitVCF.out, CADD_REF, CADD_IDX)
   mergeVCF(runVEP.out.vcfFile.collect(), runVEP.out.indexFile.collect())
 }  
 
