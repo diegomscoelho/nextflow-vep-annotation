@@ -1,10 +1,11 @@
 # code-challenge-nextflow-vep-annotation
 
-Pre-requisites:
+## Pre-requisites
+
     * Nextflow (https://www.nextflow.io/docs/latest/getstarted.html)
     * Docker (https://docs.docker.com/engine/install/ubuntu/)
 
-To run example:
+## Run example
 
 ```sh
 nextflow -C nextflow.config run run_vep.nf --vcf $PWD/examples/small.vcf.gz
