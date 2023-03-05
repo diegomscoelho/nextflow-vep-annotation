@@ -16,7 +16,7 @@ params.chros=""
 // module imports
 include { splitVCF } from "$baseDir/nf_modules/splitVCF.nf"
 include { mergeVCF } from "$baseDir/nf_modules/mergeVCF.nf"  
-include { chrosVEP } from "$baseDir/nf_modules/chrosVEP.nf"
+include { runVEP } from "$baseDir/nf_modules/runVEP.nf"
 include { readChrVCF } from "$baseDir/nf_modules/readChrVCF.nf"
 
  // print usage
@@ -74,8 +74,8 @@ log.info params.chros
     chr = readChrVCF.out.splitText().map{it -> it.trim()}
   }
   splitVCF(chr, params.vcf, vcf_index)
-  chrosVEP(splitVCF.out)
-  mergeVCF(chrosVEP.out.vcfFile.collect(), chrosVEP.out.indexFile.collect())
+  runVEP(splitVCF.out)
+  mergeVCF(runVEP.out.vcfFile.collect(), runVEP.out.indexFile.collect())
 }  
 
 workflow.onComplete { 

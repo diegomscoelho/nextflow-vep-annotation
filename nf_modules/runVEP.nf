@@ -11,7 +11,7 @@ prefix = "vep"
 params.outdir = ""
 params.cpus = 1
 
-process chrosVEP {
+process runVEP {
   /*
   Function to run VEP on chromosome-wise split VCF files
 
