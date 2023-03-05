@@ -32,7 +32,7 @@ process runVEP {
   output:
   path("${prefix}-*.vcf.gz"), emit: vcfFile
   path("${prefix}-*.vcf.gz.tbi"), emit: indexFile
-  path("${prefix}-*.vcf.gz_summary.*")
+  path("${prefix}-*.vcf.gz_summary.html")
 
   script:
   if( !vcfFile.exists() ) {
