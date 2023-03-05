@@ -26,7 +26,7 @@ if (params.help) {
   log.info '-------------------------------------------------------'
   log.info ''
   log.info 'Usage: '
-  log.info '  nextflow -C nf_config/nextflow.config run workflows/run_vep.nf --vcf <path-to-vcf> --chros 1,2 --vep_config'
+  log.info '  nextflow -C nf_config/nextflow.config run workflows/run_vep.nf --vcf <path-to-vcf> --chros 1,2'
   log.info ''
   log.info 'Options:'
   log.info '  --vcf VCF                 VCF that will be split. Currently supports sorted and bgzipped file'
